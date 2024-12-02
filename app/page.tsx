@@ -24,11 +24,12 @@ export default function Home() {
         body: JSON.stringify(values),
       });
       
+      const data = await response.json();
+      
       if (!response.ok) {
-        throw new Error("Failed to process video");
+        throw new Error(data.error || "Failed to process video");
       }
       
-      const data = await response.json();
       setComments(data.data.comments);
     } catch (error) {
       setError(error instanceof Error ? error.message : "An error occurred");
@@ -49,7 +50,7 @@ export default function Home() {
         <YouTubeForm onSubmit={onSubmit} loading={loading} />
 
         {error && (
-          <div className="p-4 text-sm text-red-500 bg-red-50 rounded-md">
+          <div className="p-4 text-sm text-red-500 bg-red-50 rounded-md dark:bg-red-950 dark:text-red-200">
             {error}
           </div>
         )}
